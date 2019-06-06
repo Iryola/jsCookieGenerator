@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Cookie from "js-cookie";
 
-function App() {
+import Login from "./login";
+
+export default function App() {
+  const [name, setName] = useState(Cookie.get("jsCookieDemo"));
+
+  const handleSet = () => {
+    setName(Cookie.get("jsCookieDemo"));
+  };
+
+  const handleDelete = () => {
+    Cookie.remove("jsCookieDemo");
+    setName(Cookie.get("jsCookieDemo"));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      {Cookie.get("jsCookieDemo") ? (
+        <div>
+          <p>Welcome, {name}</p>
+          <button onClick={handleDelete}>Log Out</button>
+        </div>
+      ) : (
+        <Login handleSet={handleSet} />
+      )}
     </div>
   );
 }
-
-export default App;
